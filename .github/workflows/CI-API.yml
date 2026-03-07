@@ -9,9 +9,14 @@ on:
     paths:
       - 'api/**'
 
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
 defaults:
   run:
-    working-directory: api
+    working-directory: ./api
 
 jobs:
   coverage:
