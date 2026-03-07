@@ -34,5 +34,3 @@ jobs:
 
       - name: Jest Code Coverage
         uses: ArtiomTr/jest-coverage-report-action@v2
-        with:
-          working-directory: ./api
