@@ -21,4 +21,6 @@ describe('Get Users', () => {
         expect(res.body).toHaveLength(1);
         expect(res.body[0]).toEqual(expect.objectContaining(expected));
     });
+
+    it.only()
 });

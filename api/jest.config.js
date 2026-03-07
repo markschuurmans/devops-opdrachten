@@ -7,6 +7,12 @@ const config = {
     ],
 
     preset: '@shelf/jest-mongodb',
+
+    coverageThreshold: {
+        global: {
+            lines: 80
+        }
+    }
 };
 
 module.exports = config;
