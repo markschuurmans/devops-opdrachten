@@ -22,5 +22,5 @@ describe('Get Users', () => {
         expect(res.body[0]).toEqual(expect.objectContaining(expected));
     });
 
-    it.only()
+    it.only("", () => {})
 });
