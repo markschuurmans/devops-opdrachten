@@ -6,10 +6,12 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - 'api/**'
 
 defaults:
   run:
-    working-directory: ./api
+    working-directory: api
 
 jobs:
   coverage:
@@ -34,3 +36,5 @@ jobs:
 
       - name: Jest Code Coverage
         uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          working-directory: api
