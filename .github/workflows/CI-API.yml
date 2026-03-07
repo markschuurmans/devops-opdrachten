@@ -31,7 +31,8 @@ jobs:
 
       - name: Run ESLint
         run: npm run lint
-        working-directory: api
 
       - name: Jest Code Coverage
         uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          working-directory: ./api
