@@ -10,4 +10,4 @@ ENV DB_NAME=devops_opdrachten
 
 EXPOSE 12345
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]
