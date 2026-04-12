@@ -1,0 +1,52 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb_container
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+    volumes:
+      - ./mongo-data:/data/db
+    networks:
+      - backend-network
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: express_api
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+    environment:
+      - PORT=3005
+      - MONGO_URL=mongodb://admin:password123@mongodb:27017/devops_opdrachten?authSource=admin
+      - DB_NAME=devops_opdrachten
+    ports:
+      - "3005:3005"
+    depends_on:
+      - mongodb
+    networks:
+      - backend-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: angular_frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - API_BASE_URL=http://localhost:3005
+    ports:
+      - "4200:4200"
+    depends_on:
+      - api
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: bridge

@@ -1,0 +1,43 @@
+services:
+  mongodb:
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${PROD_DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${PROD_DB_PASSWORD}
+    volumes:
+      - mongo-prod-data:/data/db
+    networks:
+      - prod-network
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.prod
+    restart: always
+    environment:
+      - MONGO_URL=mongodb://${PROD_DB_USER}:${PROD_DB_PASSWORD}@mongodb:27017/devops_opdrachten?authSource=admin
+    depends_on:
+      - mongodb
+    networks:
+      - prod-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    restart: always
+    environment:
+      - API_BASE_URL=${FRONTEND_API_BASE_URL:-/api}
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    networks:
+      - prod-network
+
+volumes:
+  mongo-prod-data:
+
+networks:
+  prod-network:
