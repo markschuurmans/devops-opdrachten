@@ -1,6 +1,8 @@
 <main class="container">
   <h1>DevOps Frontend</h1>
-  <p>API base URL: <code>{{ apiBaseUrl }}</code></p>
+  <p>
+    API base URL: <code>{{ apiBaseUrl }}</code>
+  </p>
 
   <button type="button" (click)="loadUsers()" [disabled]="isLoading">
     {{ isLoading ? 'Loading...' : 'Load users' }}
@@ -14,4 +16,3 @@
     <pre>{{ users | json }}</pre>
   }
 </main>
-

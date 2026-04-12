@@ -1,0 +1,49 @@
+name: 'Frontend CI'
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: ./frontend
+
+jobs:
+  test-build-style:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
+        id: setup-chrome
+
+      - name: Build
+        run: npm run build
+
+      - name: Run unit tests
+        env:
+          CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
+        run: npm run test -- --watch=false --browsers=ChromeHeadless
+
+      - name: Style check
+        run: npx prettier --check "src/**/*.{ts,html,css}" "public/**/*.js"
+
+

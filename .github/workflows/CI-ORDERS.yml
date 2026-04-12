@@ -1,0 +1,39 @@
+name: 'Orders Service CI'
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'orders-service/**'
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: ./orders-service
+
+jobs:
+  test-and-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run ESLint
+        run: npm run lint
+

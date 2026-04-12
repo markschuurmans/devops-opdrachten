@@ -16,6 +16,21 @@ services:
     networks:
       - backend-network
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: unless-stopped
+    ports:
+      - "${RABBITMQ_PORT:-5672}:5672"
+      - "${RABBITMQ_MANAGEMENT_PORT:-15672}:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 20s
+      timeout: 10s
+      retries: 10
+      start_period: 20s
+    networks:
+      - backend-network
+
   api:
     build:
       context: ./api
@@ -25,13 +40,58 @@ services:
       - PORT=${API_PORT:-5005}
       - DB_NAME=${DB_NAME:-devops_opdrachten}
       - MONGO_URL=mongodb://${MONGO_INITDB_ROOT_USERNAME:-admin}:${MONGO_INITDB_ROOT_PASSWORD:-password123}@mongodb:27017/${DB_NAME:-devops_opdrachten}?authSource=admin
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+      - USER_CREATED_QUEUE=user.created
     ports:
       - "${API_PORT:-5005}:${API_PORT:-5005}"
     depends_on:
       mongodb:
         condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:' + (process.env.PORT || 5005) + '/', (r)=>process.exit(r.statusCode < 500 ? 0 : 1)).on('error', ()=>process.exit(1))"]
+      interval: 20s
+      timeout: 10s
+      retries: 10
+      start_period: 20s
+    networks:
+      - backend-network
+
+  orders-mongodb:
+    image: mongo:latest
+    restart: unless-stopped
+    volumes:
+      - orders-mongo-dev-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ ping: 1 }).ok"]
+      interval: 20s
+      timeout: 10s
+      retries: 10
+      start_period: 20s
+    networks:
+      - backend-network
+
+  orders-service:
+    build:
+      context: ./orders-service
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      - PORT=${ORDERS_PORT:-5010}
+      - ORDERS_DB_NAME=${ORDERS_DB_NAME:-orders_db}
+      - ORDERS_MONGO_URL=mongodb://orders-mongodb:27017
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+      - USER_CREATED_QUEUE=user.created
+    ports:
+      - "${ORDERS_PORT:-5010}:${ORDERS_PORT:-5010}"
+    depends_on:
+      orders-mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:' + (process.env.PORT || 5010) + '/orders', (r)=>process.exit(r.statusCode < 500 ? 0 : 1)).on('error', ()=>process.exit(1))"]
       interval: 20s
       timeout: 10s
       retries: 10
@@ -70,6 +130,19 @@ services:
     networks:
       - backend-network
 
+  orders-mongodb-exporter:
+    image: percona/mongodb_exporter:0.40.0
+    restart: unless-stopped
+    command:
+      - --mongodb.uri=mongodb://orders-mongodb:27017/admin
+      - --collect-all
+      - --compatible-mode
+    depends_on:
+      orders-mongodb:
+        condition: service_healthy
+    networks:
+      - backend-network
+
   grafana:
     build: ./grafana
     restart: unless-stopped
@@ -104,6 +177,7 @@ services:
 
 volumes:
   mongo-dev-data:
+  orders-mongo-dev-data:
   prometheus_data:
 
 networks:

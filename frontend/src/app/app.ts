@@ -9,7 +9,7 @@ import { getApiBaseUrl } from './runtime-config';
   selector: 'app-root',
   imports: [JsonPipe],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
   private readonly http = inject(HttpClient);
