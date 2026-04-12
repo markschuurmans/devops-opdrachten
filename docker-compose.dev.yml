@@ -20,13 +20,42 @@ services:
       - ./api:/app
       - /app/node_modules
     environment:
-      - PORT=3005
+      - PORT=5005
       - MONGO_URL=mongodb://admin:password123@mongodb:27017/devops_opdrachten?authSource=admin
       - DB_NAME=devops_opdrachten
     ports:
-      - "3005:3005"
+      - "5005:5005"
     depends_on:
       - mongodb
+    networks:
+      - backend-network
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    command: --web.enable-lifecycle --config.file=/etc/prometheus/prometheus.yml
+    networks:
+      - backend-network
+
+  mongodb-exporter:
+    image: percona/mongodb_exporter:0.40.0
+    command:
+      - --mongodb.uri=mongodb://admin:password123@mongodb:27017/admin
+      - --collect-all
+      - --compatible-mode
+    depends_on:
+      - mongodb
+    networks:
+      - backend-network
+
+  grafana:
+    build: ./grafana
+    ports:
+      - "3000:3000"
     networks:
       - backend-network
 
@@ -39,13 +68,16 @@ services:
       - ./frontend:/app
       - /app/node_modules
     environment:
-      - API_BASE_URL=http://localhost:3005
+      - API_BASE_URL=http://localhost:5005
     ports:
       - "4200:4200"
     depends_on:
       - api
     networks:
       - backend-network
+
+volumes:
+    prometheus_data:
 
 networks:
   backend-network:
