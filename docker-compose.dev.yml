@@ -45,6 +45,8 @@ services:
     image: percona/mongodb_exporter:0.40.0
     command:
       - --mongodb.uri=mongodb://admin:password123@mongodb:27017/admin
+      - --collect-all
+      - --compatible-mode
     depends_on:
       - mongodb
     networks:
