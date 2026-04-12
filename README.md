@@ -56,6 +56,8 @@ Stel minimaal deze variabelen in binnen Bunnyshell:
 - `MONGO_INITDB_ROOT_PASSWORD` (dev) of `PROD_DB_PASSWORD` (prod)
 - `DB_NAME` (optioneel, default: `devops_opdrachten`)
 
+> Voor Bunnyshell/Compose parser compatibiliteit valideren we deze prod-variabelen niet via `${VAR:?...}` in compose. Zet `PROD_DB_USER` en `PROD_DB_PASSWORD` daarom expliciet als environment variables in Bunnyshell.
+
 Optioneel (voor poorten/routing):
 
 - `API_PORT` (default dev: `5005`, prod: `3005`)

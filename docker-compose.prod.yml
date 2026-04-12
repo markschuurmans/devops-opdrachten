@@ -3,8 +3,8 @@ services:
     image: mongo:latest
     restart: unless-stopped
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${PROD_DB_USER:?PROD_DB_USER is required}
-      MONGO_INITDB_ROOT_PASSWORD: ${PROD_DB_PASSWORD:?PROD_DB_PASSWORD is required}
+      MONGO_INITDB_ROOT_USERNAME: ${PROD_DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${PROD_DB_PASSWORD}
     volumes:
       - mongo-prod-data:/data/db
     healthcheck:
@@ -24,7 +24,7 @@ services:
     environment:
       - PORT=${API_PORT:-3005}
       - DB_NAME=${DB_NAME:-devops_opdrachten}
-      - MONGO_URL=mongodb://${PROD_DB_USER:?PROD_DB_USER is required}:${PROD_DB_PASSWORD:?PROD_DB_PASSWORD is required}@mongodb:27017/${DB_NAME:-devops_opdrachten}?authSource=admin
+      - MONGO_URL=mongodb://${PROD_DB_USER}:${PROD_DB_PASSWORD}@mongodb:27017/${DB_NAME:-devops_opdrachten}?authSource=admin
     depends_on:
       mongodb:
         condition: service_healthy
