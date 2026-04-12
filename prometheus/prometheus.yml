@@ -9,4 +9,8 @@ rule_files:
 scrape_configs:
   - job_name: 'api'
     static_configs:
-      - targets: ['api:5000']
+      - targets: ['api:5005']
+
+  - job_name: 'mongodb'
+    static_configs:
+      - targets: ['mongodb-exporter:9216']

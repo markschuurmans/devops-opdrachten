@@ -38,11 +38,24 @@ services:
     ports:
       - "9090:9090"
     command: --web.enable-lifecycle --config.file=/etc/prometheus/prometheus.yml
+    networks:
+      - backend-network
+
+  mongodb-exporter:
+    image: percona/mongodb_exporter:0.40.0
+    command:
+      - --mongodb.uri=mongodb://admin:password123@mongodb:27017/admin
+    depends_on:
+      - mongodb
+    networks:
+      - backend-network
 
   grafana:
     build: ./grafana
     ports:
       - "3000:3000"
+    networks:
+      - backend-network
 
   frontend:
     build:

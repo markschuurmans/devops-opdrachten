@@ -19,6 +19,13 @@ docker compose -f docker-compose.dev.yml up --build
 
 Frontend draait op `http://localhost:4200`.
 
+Monitoring in development:
+
+- Prometheus: `http://localhost:9090`
+- Grafana: `http://localhost:3000`
+- MongoDB metrics via `mongodb-exporter` (scraped by Prometheus)
+- Provisioned dashboard: `MongoDB Overview`
+
 ### Production stack
 
 Je kunt de client-API URL in productie aanpassen met `FRONTEND_API_BASE_URL`.
