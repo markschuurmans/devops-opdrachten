@@ -1,0 +1,31 @@
+.container {
+  margin: 2rem auto;
+  max-width: 760px;
+  font-family: Arial, sans-serif;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #888;
+  border-radius: 4px;
+  background: #f4f4f4;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.error {
+  color: #b91c1c;
+}
+
+pre {
+  margin-top: 1rem;
+  background: #f7f7f7;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
