@@ -1,2 +1,2 @@
 window.__env = window.__env || {};
-window.__env.apiBaseUrl = "http://localhost:3005";
+window.__env.apiBaseUrl = "http://localhost:5005";
