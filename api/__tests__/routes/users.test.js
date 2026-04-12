@@ -21,4 +21,16 @@ describe('Get Users', () => {
         expect(res.body).toHaveLength(1);
         expect(res.body[0]).toEqual(expect.objectContaining(expected));
     });
+
+    it('should create a user', async () => {
+        const payload = { name: 'Mark', role: 'student' };
+
+        const res = await request(app).post('/users').send(payload);
+        expect(res.statusCode).toEqual(201);
+        expect(res.body).toHaveProperty('id');
+
+        const users = await db.collection('users').find().toArray();
+        expect(users).toHaveLength(1);
+        expect(users[0]).toEqual(expect.objectContaining(payload));
+    });
 });
