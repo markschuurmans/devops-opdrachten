@@ -22,7 +22,8 @@
   "panels": [
     {
       "datasource": {
-        "uid": "${DS_PROMETHEUS}"
+        "type": "prometheus",
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -110,7 +111,8 @@
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "prometheus"
           },
           "expr": "irate(process_cpu_user_seconds_total{instance=~\"$instance\"}[2m]) * 100",
           "format": "time_series",
@@ -120,7 +122,8 @@
         },
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "prometheus"
           },
           "expr": "irate(process_cpu_system_seconds_total{instance=~\"$instance\"}[2m]) * 100",
           "format": "time_series",
@@ -134,7 +137,8 @@
     },
     {
       "datasource": {
-        "uid": "${DS_PROMETHEUS}"
+        "type": "prometheus",
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -222,7 +226,8 @@
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "prometheus"
           },
           "expr": "nodejs_eventloop_lag_seconds{instance=~\"$instance\"}",
           "format": "time_series",
@@ -236,7 +241,8 @@
     },
     {
       "datasource": {
-        "uid": "${DS_PROMETHEUS}"
+        "type": "prometheus",
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -297,7 +303,8 @@
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "prometheus"
           },
           "expr": "sum(nodejs_version_info{instance=~\"$instance\"}) by (version)",
           "format": "time_series",
@@ -313,7 +320,8 @@
     },
     {
       "datasource": {
-        "uid": "${DS_PROMETHEUS}"
+        "type": "prometheus",
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -378,7 +386,8 @@
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "prometheus"
           },
           "expr": "sum(changes(process_start_time_seconds{instance=~\"$instance\"}[1m]))",
           "format": "time_series",
@@ -392,7 +401,8 @@
     },
     {
       "datasource": {
-        "uid": "${DS_PROMETHEUS}"
+        "type": "prometheus",
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -480,7 +490,8 @@
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "prometheus"
           },
           "expr": "process_resident_memory_bytes{instance=~\"$instance\"}",
           "format": "time_series",
@@ -490,7 +501,8 @@
         },
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "prometheus"
           },
           "expr": "nodejs_heap_size_total_bytes{instance=~\"$instance\"}",
           "format": "time_series",
@@ -500,7 +512,8 @@
         },
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "prometheus"
           },
           "expr": "nodejs_heap_size_used_bytes{instance=~\"$instance\"}",
           "format": "time_series",
@@ -510,7 +523,8 @@
         },
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "prometheus"
           },
           "expr": "nodejs_external_memory_bytes{instance=~\"$instance\"}",
           "format": "time_series",
@@ -524,7 +538,8 @@
     },
     {
       "datasource": {
-        "uid": "${DS_PROMETHEUS}"
+        "type": "prometheus",
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -612,7 +627,8 @@
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "prometheus"
           },
           "expr": "nodejs_active_handles_total{instance=~\"$instance\"}",
           "format": "time_series",
@@ -622,7 +638,8 @@
         },
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "prometheus"
           },
           "expr": "nodejs_active_requests_total{instance=~\"$instance\"}",
           "format": "time_series",
@@ -636,7 +653,8 @@
     },
     {
       "datasource": {
-        "uid": "${DS_PROMETHEUS}"
+        "type": "prometheus",
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -724,7 +742,8 @@
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "prometheus"
           },
           "expr": "nodejs_heap_space_size_total_bytes{instance=~\"$instance\"}",
           "format": "time_series",
@@ -738,7 +757,8 @@
     },
     {
       "datasource": {
-        "uid": "${DS_PROMETHEUS}"
+        "type": "prometheus",
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -826,7 +846,8 @@
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "prometheus"
           },
           "expr": "nodejs_heap_space_size_used_bytes{instance=~\"$instance\"}",
           "format": "time_series",
@@ -840,7 +861,8 @@
     },
     {
       "datasource": {
-        "uid": "${DS_PROMETHEUS}"
+        "type": "prometheus",
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -928,7 +950,8 @@
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "prometheus"
           },
           "expr": "nodejs_heap_space_size_available_bytes{instance=~\"$instance\"}",
           "format": "time_series",
@@ -951,8 +974,9 @@
     "list": [
       {
         "current": {
-          "text": "",
-          "value": ""
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
         },
         "definition": "label_values(nodejs_version_info, instance)",
         "includeAll": true,
